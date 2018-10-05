@@ -26,7 +26,7 @@ app.listen(port, () => {
  * */
 
 function SessionHandler() {
-  const redisClient = redis.createClient({ prefix: 'fb' });
+  const redisClient = redis.createClient({ prefix: 'fb', url: process.env.REDISCLOUD_URL});
 
   return {
     getSession: (userId) => new Promise((resolve, reject) => {
