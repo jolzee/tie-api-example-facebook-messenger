@@ -12,15 +12,15 @@
     "env": {
         "FB_VERIFY_TOKEN": {
             "description": "Please input you Facebook Verify Token",
-            "value": ""
+            "required":true
         },
         "FB_PAGE_ACCESS_TOKEN": {
             "description": "Please input you Facebook Page Access Token",
-            "value": ""
+            "required":true
         },
         "TENEO_ENGINE_URL": {
             "description": "Please input your Teneo Engine URL. https://some.engine/instance/",
-            "value": ""
+            "required":true
         }
     },
     "addons": [
