@@ -4,9 +4,14 @@ const redis = require('redis');
 const request = require('request-promise-native');
 const TIE = require('@artificialsolutions/tie-api-client');
 
-const teneoEngineUrl = process.env.TENEO_ENGINE_URL;
+const {
+  FB_PAGE_ACCESS_TOKEN,
+  FB_VERIFY_TOKEN,
+  REDISCLOUD_URL,
+  TENEO_ENGINE_URL,
+} = process.env;
 const port = process.env.PORT || 4649;
-const teneoApi = TIE.init(teneoEngineUrl);
+const teneoApi = TIE.init(TENEO_ENGINE_URL);
 
 /* *
  * SERVER SETUP
@@ -18,7 +23,7 @@ app.use('/webhook', facebookWebhook(SessionHandler()));
 
 app.listen(port, () => {
   console.log(`Teneo Facebook Bot running on port ${port}`);
-  console.log(`Talking to Teneo Engine @ ${teneoEngineUrl}`);
+  console.log(`Talking to Teneo Engine @ ${TENEO_ENGINE_URL}`);
 });
 
 /* *
@@ -26,7 +31,7 @@ app.listen(port, () => {
  * */
 
 function SessionHandler() {
-  const redisClient = redis.createClient({ prefix: 'fb', url: process.env.REDISCLOUD_URL});
+  const redisClient = redis.createClient({ prefix: 'fb', url: REDISCLOUD_URL});
 
   return {
     getSession: (userId) => new Promise((resolve, reject) => {
@@ -64,7 +69,7 @@ function facebookWebhook(sessionHandler) {
 }
 
 function verifyEndpoint(req, res) {
-  if (req.query['hub.verify_token'] === process.env.FB_VERIFY_TOKEN) {
+  if (req.query['hub.verify_token'] === FB_VERIFY_TOKEN) {
     res.send(req.query['hub.challenge']);
   } else {
     res.send('Error, wrong validation token');
@@ -92,7 +97,7 @@ function handleFacebookMessage(sessionHandler) {
 
           await sendFacebookMessage(facebookMessage);
         } catch (error) {
-          console.error(`Failed when sending input to Teneo Engine @ ${teneoEngineUrl}`, error);
+          console.error(`Failed when sending input to Teneo Engine @ ${TENEO_ENGINE_URL}`, error);
         }
       });
     });
@@ -110,7 +115,7 @@ async function sendFacebookMessage(messageData) {
   try {
     const response = await request({
       uri: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: { access_token: process.env.FB_PAGE_ACCESS_TOKEN },
+      qs: { access_token: FB_PAGE_ACCESS_TOKEN },
       method: 'POST',
       json: messageData,
       resolveWithFullResponse: true
