@@ -17,6 +17,19 @@
 * Facebook Developer account
   * Register the Teneo-Facebook bot web hook
   * Generate a verify token for the Facebook page
+* All necessary environment variables are set
+
+### Environment variables
+
+In order for the application to run the following environment variables need to be available to the process:
+
+| Variable               | Description                                            |
+| ---------------------- | ------------------------------------------------------ |
+| `TENEO_ENGINE_URL`     | URL pointing to a published Teneo Engine bot           |
+| `FB_VERIFY_TOKEN`      | Token used to verify the service against facebook      |
+| `FB_PAGE_ACCESS_TOKEN` | Token necessary for communicating with Facebook        |
+| `REDISCLOUD_URL`       | Full url to a running Redis instance (`<host>:<port>`) |
+| `PORT`                 | Optional, default `4649`                               |
 
 ## Creating a Teneo integrated Facebook bot
 
