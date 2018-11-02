@@ -108,6 +108,9 @@ function handleFacebookMessage(sessionHandler) {
 
           console.log(`Got Teneo Engine response '${teneoResponse.output.text}' for session ${teneoResponse.sessionId}`);
 
+          // your bot can use output parameters to populate message templates for buttons, images lists etc.
+          // you would find the output parameters in teneoResponse.output.parameters
+
           await sessionHandler.setSession(sender.id, teneoResponse.sessionId);
           const facebookMessage = createFacebookMessage(sender.id, teneoResponse.output.text);
 
