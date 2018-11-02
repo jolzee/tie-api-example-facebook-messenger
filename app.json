@@ -5,8 +5,7 @@
         "bot",
         "Facebook Messenger",
         "Messenger",
-        "Teneo",
-        "CAI"
+        "Teneo"
     ],
     "repository": "https://github.com/artificialsolutions/tie-api-example-facebook-messenger/",
     "env": {

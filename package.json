@@ -1,21 +1,19 @@
 {
   "name": "@artificialsolutions/tie-api-example-facebook-messenger",
   "version": "0.0.1",
-  "description": "",
+  "description": "A basic example of using Teneo and Facebook Messenger",
   "main": "server.js",
   "engines": {
     "node": ">=8.1.4",
     "npm": ">=5"
   },
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "lint": "eslint .",
-    "package": "tar -cvf teneo-fb-bot.tar server.js package.json package-lock.json"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://git.artificial-solutions.com/scm/addon/tie-api-example-facebook-messenger.git"
+    "url": "https://github.com/artificialsolutions/tie-api-example-facebook-messenger"
   },
   "author": "Jens Ostlund",
   "license": "Apache-2.0",
@@ -26,13 +24,5 @@
     "redis": "^2.8.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5"
-  },
-  "devDependencies": {
-    "eslint": "^5.7.0",
-    "nodemon": "^1.18.4",
-    "pre-commit": "^1.2.2"
-  },
-  "pre-commit": [
-    "lint"
-  ]
+  }
 }
