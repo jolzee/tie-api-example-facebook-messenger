@@ -86,6 +86,7 @@ function facebookWebhook(sessionHandler) {
 
 function verifyEndpoint(req, res) {
   if (req.query['hub.verify_token'] === FB_VERIFY_TOKEN) {
+    console.log('Verify token')
     res.send(req.query['hub.challenge']);
   } else {
     res.send('Error, wrong validation token');
@@ -144,7 +145,7 @@ async function sendFacebookMessage(messageData) {
       throw new Error(`Got status code ${response.statusCode} when sending response.`);
     }
 
-    console.log('Sent response to Facebook', messageData);
+    console.log('Sent response to Facebook');
   } catch (error) {
     console.error('Got error while sending message to Facebook', error);
   }
