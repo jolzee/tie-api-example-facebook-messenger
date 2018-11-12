@@ -109,13 +109,20 @@ function handleFacebookMessage(sessionHandler) {
 
           console.log(`Got Teneo Engine response '${teneoResponse.output.text}' for session ${teneoResponse.sessionId}`);
 
-          // your bot can use output parameters to populate message templates for buttons, images lists etc.
-          // you would find the output parameters in teneoResponse.output.parameters
+
 
           await sessionHandler.setSession(sender.id, teneoResponse.sessionId);
           const facebookMessage = createFacebookMessage(sender.id, teneoResponse.output.text);
 
           await sendFacebookMessage(facebookMessage);
+
+          // use the engine output parameter 'fbmessenger' to send messenger templates and attachments
+          // https://developers.facebook.com/docs/messenger-platform/send-messages/templates
+          if (teneoResponse.output.parameters.fbmessenger) {
+            const facebookAttachment = createFacebookAttachment(sender.id, teneoResponse.output.parameters.fbmessenger);
+            await sendFacebookMessage(facebookAttachment);
+          }
+          
         } catch (error) {
           console.error(`Failed when sending input to Teneo Engine @ ${TENEO_ENGINE_URL}`, error);
         }
@@ -127,6 +134,13 @@ function handleFacebookMessage(sessionHandler) {
 function createFacebookMessage(recipientId, text) {
   return {
     message: { text },
+    recipient: { id: recipientId }
+  };
+}
+
+function createFacebookAttachment(recipientId, attachment) {
+  return {
+    message: { attachment: attachment },
     recipient: { id: recipientId }
   };
 }
