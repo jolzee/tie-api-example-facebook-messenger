@@ -109,8 +109,6 @@ function handleFacebookMessage(sessionHandler) {
 
           console.log(`Got Teneo Engine response '${teneoResponse.output.text}' for session ${teneoResponse.sessionId}`);
 
-
-
           await sessionHandler.setSession(sender.id, teneoResponse.sessionId);
           const facebookMessage = createFacebookMessage(sender.id, teneoResponse.output.text);
 
