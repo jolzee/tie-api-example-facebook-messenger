@@ -25,7 +25,7 @@ You have now added Messenger as a product to your Facebook app. Next you need to
 ### Generate a Facebook Page Token
 Facebook Messenger bots need to be connected to businesses and those businesses need to be present on Facebook with a Facebook Page. For your bot to be able to respond to questions that are sent to your business Facebook page (via Facebook Messenger) you need to generate a page token. Scroll down to the section that say 'Token Generation'. You can either select an existing Facebook Page or create a new Facebook. After you have selected the page, the token will appear. Copy this token and remember it for use later.
 
-!!!! Make sure you copy and store the page token, because this is the only time it will be visible.
+Make sure you copy and store the page token, because this is the only time it will be visible.
 
 ### Deploy the connector to Heroku
 Click the button below to create a new Heroku app that contains the connector:
@@ -59,4 +59,31 @@ To test your bot, go to your Facebook page and add a button:
 4. Facebook will now ask you what should happen when they press the button, choose 'Messenger'
 
 That's it! To test it, hover over the 'Send message' button and choose 'Test button'. A messenger windows appear, allowing you chat with your bot.
+
+
+## Sending attachments
+To send [message templates](https://developers.facebook.com/docs/messenger-platform/send-messages/templates) or [message attachments](https://developers.facebook.com/docs/messenger-platform/send-messages#sending_attachments), this connector looks for an output parameter `fbmessenger` in the engine response. The value of that parameter is assumed to contain the attachment or message template JSON as defined by Facebook.
+
+If we look at Facebook's specification of an [image attachment](https://developers.facebook.com/docs/messenger-platform/send-messages/#url), to attach an image, the value of the `fbmessenger` output parameter would need to look like this:
+```
+{
+    "type": "image",
+    "payload": {
+        "url": "https://url.to/an/image.png",
+        "is_reusable": true
+    }
+}
+```
+
+
+## Running the connector locally
+If you prefer to manually install this connector or want to run it locally so you can extend it, proceed as follows:
+1. Download, install and run Redis by following the instructions here: [redis.io/download](https://redis.io/download).
+2. Clone or download the connector from [Github](https://github.com/artificialsolutions/tie-api-example-facebook-messenger)
+3. Install dependencies by running `npm install` in the folder where you cloned or unzipped the connector.
+4. Make sure your connector is available via https. When running locally you can for example use ngrok: [ngrok.com](https://ngrok.com). The connector runs on port 4649 by default.
+5. Start the connector with the following command (replacing the environment variables with the appropriate values):
+    ```
+    FB_PAGE_ACCESS_TOKEN=<your_facebook_page_access_token> FB_VERIFY_TOKEN=<your_facebook_verify_token> TENEO_ENGINE_URL=<your_engine_url> node server.js
+    ```
 
