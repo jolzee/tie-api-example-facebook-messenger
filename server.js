@@ -12,18 +12,16 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const redis = require('redis');
 const request = require('request-promise-native');
 const TIE = require('@artificialsolutions/tie-api-client');
 
 const {
   FB_PAGE_ACCESS_TOKEN,
   FB_VERIFY_TOKEN,
-  REDISCLOUD_URL,
   TENEO_ENGINE_URL,
 } = process.env;
 const port = process.env.PORT || 4649;
@@ -47,25 +45,24 @@ app.listen(port, () => {
  * */
 
 function SessionHandler() {
-  const redisClient = redis.createClient({ prefix: 'fb', url: REDISCLOUD_URL});
+
+  // Map the Facebook user id to the teneo engine session id. 
+  // This code keeps the map in memory, which is ok for testing purposes
+  // For production usage it is advised to make use of more resilient storage mechanisms like redis
+  const sessionMap = new Map();
 
   return {
-    getSession: (userId) => new Promise((resolve, reject) => {
-      redisClient.get(userId, (err, res) => {
-        if (err) reject(err);
-        resolve(res);
-      });
+    getSession: (userId) => new Promise((resolve) => {
+      if (sessionMap.size > 0) {
+        resolve(sessionMap.get(userId));
+      }
+      else {
+        resolve("")
+      }
     }),
-    setSession: (userId, sessionId) => new Promise((resolve, reject) => {
-      redisClient.set(userId, sessionId, (err1) => {
-        if (err1) reject(err1);
-
-        const oneDay = 24 * 60 * 60;
-        redisClient.expire(userId, oneDay, (err2) => {
-          if (err2) reject(err2);
-          resolve();
-        });
-      });
+    setSession: (userId, sessionId) => new Promise((resolve) => {
+      sessionMap.set(userId, sessionId);
+      resolve();
     })
   };
 }
@@ -120,7 +117,7 @@ function handleFacebookMessage(sessionHandler) {
             const facebookAttachment = createFacebookAttachment(sender.id, teneoResponse.output.parameters.fbmessenger);
             await sendFacebookMessage(facebookAttachment);
           }
-          
+
         } catch (error) {
           console.error(`Failed when sending input to Teneo Engine @ ${TENEO_ENGINE_URL}`, error);
         }
