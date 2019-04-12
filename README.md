@@ -41,9 +41,9 @@ After the app has been deployed, choose 'Open app'. This will open a browser win
 ### Setup webhook on Facebook
 Next we will need to setup the webhook. Scroll to the 'Webhooks' section and click on the 'Setup Webhooks' button. A window appears in which you need to provide a 'Callback URL' and a 'Verify Token'.
 
-* In the 'Callback URL' field paste your Heroku server url appended with <mark>/webhook/</mark>. It should look something like this: https://yourappname.herokuapp.com/webhook/
+* In the 'Callback URL' field paste your Heroku server url appended with `/webhook/`. It should look something like this: https://yourappname.herokuapp.com/webhook/
 * In the 'Verify Token' field, enter the verify token you declared when your started the Heroku app.
-* For Subscription Fields select: <mark>messages</mark> and <mark>messaging_postbacks</mark>
+* For Subscription Fields select: `messages` and `messaging_postbacks`
 * Select the page you want your webhook for
 
 Click 'Verify and Save'. If verification was successful, your bot is now available via Facebook Messenger.
@@ -78,6 +78,9 @@ If you prefer to manually install this connector or want to run it locally so yo
 1. Clone or download the connector from [Github](https://github.com/artificialsolutions/tie-api-example-facebook-messenger)
 2. Install dependencies by running `npm install` in the folder where you cloned or unzipped the connector.
 3. Make sure your connector is available via https. When running locally you can for example use ngrok: [ngrok.com](https://ngrok.com). The connector runs on port 4649 by default.
+    ```
+    ngrok http 4649
+    ```
 4. Start the connector with the following command (replacing the environment variables with the appropriate values):
     ```
     FB_PAGE_ACCESS_TOKEN=<your_facebook_page_access_token> FB_VERIFY_TOKEN=<your_facebook_verify_token> TENEO_ENGINE_URL=<your_engine_url> node server.js
