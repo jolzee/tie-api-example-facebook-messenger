@@ -46,7 +46,7 @@ app.listen(port, () => {
 
 function SessionHandler() {
 
-  // Map the slack user id to the teneo engine session id. 
+  // Map the Facebook user id to the teneo engine session id. 
   // This code keeps the map in memory, which is ok for testing purposes
   // For production usage it is advised to make use of more resilient storage mechanisms like redis
   const sessionMap = new Map();
