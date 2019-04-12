@@ -1,6 +1,6 @@
 {
   "name": "@artificialsolutions/tie-api-example-facebook-messenger",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A basic example of using Teneo and Facebook Messenger",
   "main": "server.js",
   "engines": {
