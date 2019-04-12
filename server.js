@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -52,18 +52,18 @@ function SessionHandler() {
   const sessionMap = new Map();
 
   return {
-    getSession: (userId) =>  new Promise((resolve) => {	
-      if(sessionMap.size>0){
+    getSession: (userId) => new Promise((resolve) => {
+      if (sessionMap.size > 0) {
         resolve(sessionMap.get(userId));
       }
-      else{
+      else {
         resolve("")
       }
-   }),
-   setSession: (userId, sessionId) => new Promise((resolve) =>{
-      sessionMap.set(userId,sessionId);
+    }),
+    setSession: (userId, sessionId) => new Promise((resolve) => {
+      sessionMap.set(userId, sessionId);
       resolve();
-   })
+    })
   };
 }
 
@@ -117,7 +117,7 @@ function handleFacebookMessage(sessionHandler) {
             const facebookAttachment = createFacebookAttachment(sender.id, teneoResponse.output.parameters.fbmessenger);
             await sendFacebookMessage(facebookAttachment);
           }
-          
+
         } catch (error) {
           console.error(`Failed when sending input to Teneo Engine @ ${TENEO_ENGINE_URL}`, error);
         }
